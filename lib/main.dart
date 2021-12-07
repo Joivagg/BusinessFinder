@@ -1,4 +1,10 @@
+import 'package:businessfinder/view/home_view.dart';
 import 'package:flutter/material.dart';
-import 'package:businessfinder/scroll_infinito.dart';
+import 'controller/store_dao.dart';
 
-void main() => runApp(const ScrollInfinito());
+void main() {
+  StoresDAO.addStoresFromServer().then((value) {
+    runApp(const HomeView());
+  });
+  //runApp(const HomeView() /*const ScrollInfinito()*/);
+}

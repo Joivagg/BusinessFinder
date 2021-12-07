@@ -1,5 +1,6 @@
+import 'package:businessfinder/controller/store_dao.dart';
 import 'package:flutter/material.dart';
-import 'package:businessfinder/data/stores_data.dart';
+import 'package:businessfinder/model/stores_data.dart';
 
 class StoresListView extends StatefulWidget{
   const StoresListView({Key? key}) : super(key: key);
@@ -9,7 +10,7 @@ class StoresListView extends StatefulWidget{
 }
 
 class _StoresListViewState extends State {
-  final _stores = StoresDAO().listadoTiendas;
+  final _stores = StoresDAO.listadoTiendas;
   final _biggerFont = const TextStyle(fontSize: 18.0);
   @override
   Widget build(BuildContext context) {
@@ -40,12 +41,23 @@ class _StoresListViewState extends State {
         style: _biggerFont,
       ),
       subtitle: Text(
-        store.address,
+        store.address+'\n'+store.products,
         style: const TextStyle(
           fontSize: 16,
           color: Colors.lime,
         ),
       ),
+      trailing: Icon(
+        Icons.access_alarm,
+        size: 50,
+        color: Colors.orange
+      ),
+      onTap:(){
+        print(store.cellphone);
+      },
+      onLongPress: (){
+        print(store.phone);
+      },
     );
   }
 }
