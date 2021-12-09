@@ -1,6 +1,10 @@
+import 'package:businessfinder/model/stores_data.dart';
 import 'package:businessfinder/view/search.dart';
-import 'package:businessfinder/view/search_products.dart';
+import 'package:businessfinder/view/stores_view.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import 'search_products.dart';
 
 class HomeView extends StatelessWidget {
   static final List<String> images = [
@@ -8,6 +12,13 @@ class HomeView extends StatelessWidget {
     'https://logowik.com/content/uploads/images/flutter5786.jpg',
     'https://logowik.com/content/uploads/images/flutter5786.jpg',
     'https://logowik.com/content/uploads/images/flutter5786.jpg',
+  ];
+  static final List<Widget> buttons = [
+    ElevatedButton(
+        onPressed: (){
+          //Navigator.push(context, MaterialPageRoute(builder: (context) => Search(StoreType.todos)))
+        },
+        child: Text('Nuestras\nTiendas', style: GoogleFonts.acme(fontSize: 20)))
   ];
   const HomeView({Key? key}) : super(key: key);
 
@@ -24,13 +35,13 @@ class HomeView extends StatelessWidget {
         body: Container(
           padding: EdgeInsets.all(12.0),
           child: GridView.builder(
-              itemCount: images.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, // numero de elementos en la fila
-              crossAxisSpacing: 4.0),
-              itemBuilder: (BuildContext context, int index){
-                return buildCell(context, index);
-              },
+            itemCount: images.length,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2, // numero de elementos en la fila
+                crossAxisSpacing: 4.0),
+            itemBuilder: (BuildContext context, int index){
+              return buildCell(context, index);
+            },
           ),
         ),
       ),
@@ -51,11 +62,13 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  _navigateTo(BuildContext context, int index){
+  static _navigateTo(BuildContext context, int index){
     if(index==0){
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Search()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const Search(StoreType.todos)));
     }else if(index==1){
       Navigator.push(context, MaterialPageRoute(builder: (context) => SearchProducts()));
+    }else if(index==2){
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const StoresListView()));
     }return;
   }
 

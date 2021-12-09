@@ -1,3 +1,5 @@
+import 'package:businessfinder/model/product.dart';
+import 'package:businessfinder/view/store_info.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_select/smart_select.dart';
 import '../controller/store_dao.dart';
@@ -12,14 +14,12 @@ void main() {
 class SearchProducts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Scaffold(
-            appBar: AppBar(
-                title: Text('Quiero comprar')
-            ),
-            body: Center(
-                child: ListSearch()
-            )
+    return Scaffold(
+        appBar: AppBar(
+            title: Text('Quiero comprar')
+        ),
+        body: Center(
+            child: ListSearch()
         )
     );
   }
@@ -54,10 +54,25 @@ class ListSearchState extends State<ListSearch> {
     return listafinal;
   }
 
-   onItemChanged(String value) {
+  onItemChanged(String value) {
     setState(() {
       newDataList = _storesFilter
-          .where((store) => store.products.toLowerCase().contains(value.toLowerCase()))
+          .where((store) {
+        if(store.products.isNotEmpty) {
+          bool res = true;
+          for (Product i in store.products) {
+            if (i.name.toLowerCase().contains(value.toLowerCase())) {
+              res = true;
+              return res;
+            } else {
+              res = false;
+            }
+          }
+          return res;
+        }else{
+          return false;
+        }
+      }/*store.products.toLowerCase().contains(value.toLowerCase())*/)
           .toList();
     });
   }
@@ -83,7 +98,7 @@ class ListSearchState extends State<ListSearch> {
       newDataList = _storesFilter;
     });
   }
-  
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: _buildStoreList(),
@@ -95,68 +110,68 @@ class ListSearchState extends State<ListSearch> {
       value=getStoreTypes();
     }return value;
   }
-  
+
   Widget filter(){
-     return SmartSelect<StoreType>.multiple(
-         title: "Tipo de empresa",
-         value: value,
-         choiceItems: optionMaker(getStoreTypes()),
-         onChange: (state){
-           setState((){
-             if(state.value.contains(StoreType.todos)){
-               value=[StoreType.todos];
-             }else {
-               value = state.value;
-             }
-             typeFilter(value);
-           });
-         },
-         tileBuilder: (context, state) {
-           return S2ChipsTile<StoreType>(
-             title: state.titleWidget,
-             values: state.valueObject,
-             onTap: state.showModal,
-             subtitle: const Text('Selecciona algún filtro'),
-             /*leading: const CircleAvatar(
+    return SmartSelect<StoreType>.multiple(
+      title: "Tipo de producto",
+      value: value,
+      choiceItems: optionMaker(getStoreTypes()),
+      onChange: (state){
+        setState((){
+          if(state.value.contains(StoreType.todos)){
+            value=[StoreType.todos];
+          }else {
+            value = state.value;
+          }
+          typeFilter(value);
+        });
+      },
+      tileBuilder: (context, state) {
+        return S2ChipsTile<StoreType>(
+          title: state.titleWidget,
+          values: state.valueObject,
+          onTap: state.showModal,
+          subtitle: const Text('Selecciona algún filtro'),
+          /*leading: const CircleAvatar(
                backgroundImage: NetworkImage('https://source.unsplash.com/8I-ht65iRww/100x100'),
              ),*/
-             trailing: const Icon(Icons.add_circle_outline),
-             scrollable: true,
-             divider: const Divider(height: 1),
-             chipColor: Colors.red,
-             chipBrightness: Brightness.dark,
-           );
-       },
-     );
+          trailing: const Icon(Icons.add_circle_outline),
+          scrollable: true,
+          divider: const Divider(height: 1),
+          chipColor: Colors.red,
+          chipBrightness: Brightness.dark,
+        );
+      },
+    );
   }
 
   Widget _buildStoreList() {
     return Column(
-      children: <Widget>[
-        filter(),
-        Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: TextField(
-            controller: _textController,
-            decoration: InputDecoration(
-              hintText: 'Search Here...',
+        children: <Widget>[
+          filter(),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: TextField(
+              controller: _textController,
+              decoration: InputDecoration(
+                hintText: 'Nombre del producto...',
+              ),
+              onChanged: onItemChanged,
             ),
-            onChanged: onItemChanged,
           ),
-        ),
-        Expanded(
-            child: ListView.builder(
-                padding: const EdgeInsets.all(16.0),
-                itemCount: newDataList.length * 2,
-                itemBuilder: /*1*/ (context, i) {
-                  if (i.isOdd) return const Divider();
-                  /*2*/
-                  final index = i ~/ 2; /*3*/
-                  return _buildRow(newDataList[index]);
-                }
-            )
-        )
-      ]
+          Expanded(
+              child: ListView.builder(
+                  padding: const EdgeInsets.all(16.0),
+                  itemCount: newDataList.length * 2,
+                  itemBuilder: /*1*/ (context, i) {
+                    if (i.isOdd) return const Divider();
+                    /*2*/
+                    final index = i ~/ 2; /*3*/
+                    return _buildRow(newDataList[index]);
+                  }
+              )
+          )
+        ]
     );
   }
 
@@ -167,19 +182,18 @@ class ListSearchState extends State<ListSearch> {
         style: _biggerFont,
       ),
       subtitle: Text(
-        '\n'+store.address+'\n\n'+store.type.toString().replaceFirst('StoreType.', '')+'\n\n'+store.products,
+        '\n'+store.address+'\n\n'+store.type.toString().replaceFirst('StoreType.', ''),
         style: const TextStyle(
           fontSize: 16,
           color: Colors.lime,
         ),
       ),
-      trailing: Icon(
-          Icons.access_alarm,
-          size: 50,
-          color: Colors.orange
+      leading: Image(
+        image: NetworkImage(store.logo),
       ),
+      trailing: Icon(Icons.arrow_forward_ios_outlined),
       onTap:(){
-        print(store.cellphone);
+        Navigator.push(context, MaterialPageRoute(builder: (context) => DisplayInfo(store: store)));
       },
       onLongPress: (){
         print(store.phone);

@@ -1,4 +1,5 @@
 import 'package:businessfinder/controller/store_dao.dart';
+import 'package:businessfinder/view/store_info.dart';
 import 'package:flutter/material.dart';
 import 'package:businessfinder/model/stores_data.dart';
 
@@ -41,19 +42,19 @@ class _StoresListViewState extends State {
         style: _biggerFont,
       ),
       subtitle: Text(
-        store.address+'\n'+store.products,
+        store.address,
         style: const TextStyle(
           fontSize: 16,
           color: Colors.lime,
         ),
       ),
       trailing: Icon(
-        Icons.access_alarm,
-        size: 50,
-        color: Colors.orange
+          Icons.access_alarm,
+          size: 50,
+          color: Colors.orange
       ),
       onTap:(){
-        print(store.cellphone);
+        Navigator.push(context, MaterialPageRoute(builder: (context) => DisplayInfo(store: store)));
       },
       onLongPress: (){
         print(store.phone);
