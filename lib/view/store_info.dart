@@ -10,6 +10,7 @@ import 'package:url_launcher/link.dart';
 import '../controller/store_dao.dart';
 import '../model/stores_data.dart';
 import 'addorder_form.dart';
+import 'googlemaps.dart';
 import 'order_view.dart';
 
  main() {
@@ -25,10 +26,14 @@ class DisplayInfo extends StatelessWidget {
   void handleTap(int option, BuildContext context){
     switch(option){
       case 0:{
+        Navigator.push(
+          context, MaterialPageRoute(builder: (context) => GoogleMaps(store)),
+        );
         break;
       }
       case 1:{
         Navigator.push(context, MaterialPageRoute(builder: (context) => Carrito()));
+        break;
       }
     }
   }
