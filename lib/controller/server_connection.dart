@@ -21,4 +21,22 @@ class ServerConnection {
       return 'response status: ${response.statusCode}';
     }
   }
+  Future<String> dropClient(String table, String data) async {
+    final url = Uri.parse(_svrUrl);
+    var response = await http.post(url, body: {'acc': '3', 'tbl': table, 'data': data});
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      return 'response status: ${response.statusCode}';
+    }
+  }
+  Future<String> updateClient(String table, String data) async {
+    final url = Uri.parse(_svrUrl);
+    var response = await http.post(url, body: {'acc': '4', 'tbl': table, 'data': data});
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      return 'response status: ${response.statusCode}';
+    }
+  }
 }
