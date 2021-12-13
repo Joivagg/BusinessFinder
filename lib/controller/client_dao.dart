@@ -1,13 +1,13 @@
 import 'dart:convert' as JSON;
 import 'package:businessfinder/controller/server_connection.dart';
-import 'package:businessfinder/controller/store_dao.dart';
 import 'package:businessfinder/model/users_data.dart';
 
 class ClientDAO {
   static final List<Users> listadoClientes = [];
   static List<Users> listadoClientes2 = [];
+  static Users clienteActual= Users(0, 'Invitado ', 'address', 'email', 'cellphone', 'password', UserType.invitado);
 
-  static Future<void> addClientFromServer() async {
+  static Future<void> addClientsFromServer() async {
     var svrConn = ServerConnection();
     await svrConn.select('Clientes').then((users_data) {
       //el nombre de la tabla

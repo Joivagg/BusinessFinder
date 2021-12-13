@@ -5,7 +5,6 @@ import 'controller/client_dao.dart';
 
 void main() {
   StoresDAO.addStoresFromServer().then((value) {
-    ClientDAO.addClientFromServer();
     runApp(const HomeView());
   });
   //runApp(const HomeView() /*const ScrollInfinito()*/);

@@ -1,9 +1,11 @@
+import 'package:businessfinder/model/stores_data.dart';
 import 'package:businessfinder/model/users_data.dart';
 import 'package:businessfinder/view/register.dart';
 import 'package:businessfinder/view/search.dart';
 import 'package:businessfinder/view/search_products.dart';
 import 'package:businessfinder/view/usuario.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'login.dart';
 
@@ -14,6 +16,7 @@ class HomeView extends StatelessWidget {
     Users _usu=new Users(0, 'Invitado ', 'address', 'email', 'cellphone', 'password', UserType.invitado);
     //final wordPair = WordPair.random();
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
       //title: 'Generador de Nombres',
         home: HomeScreen(usu:_usu));
   }
@@ -23,7 +26,6 @@ class HomeView2 extends StatelessWidget{
   const HomeView2({Key? key, required this.usu}) : super(key: key);
   @override
     Widget build(BuildContext context) {
-    print(usu.name);
       //final wordPair = WordPair.random();
       return MaterialApp(
         //title: 'Generador de Nombres',
@@ -41,21 +43,15 @@ class HomeScreen extends StatelessWidget{
 
 
   static final List<String> images = [
-    'https://logowik.com/content/uploads/images/flutter5786.jpg',
-    'https://logowik.com/content/uploads/images/flutter5786.jpg',
-    'https://logowik.com/content/uploads/images/flutter5786.jpg',
-    'https://logowik.com/content/uploads/images/flutter5786.jpg',
+    'https://drive.google.com/uc?export=view&id=1KAv_eOF9m_8h8G9QkeR93-CbYzwORPA_',
+    'https://drive.google.com/uc?export=view&id=1_0NTq-6ePTn3bJwpIL2oEK_7-tw9kjzT',
   ];
-
-
-
-
 
   @override
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
-        title: Text('Menú Principal'),
+        title: Text('BussinessFinder',style: GoogleFonts.dancingScript(fontWeight: FontWeight.bold,fontSize: 30, shadows: <Shadow>[const Shadow(color: Colors.black26, blurRadius: 5, offset: Offset(5,5))]),),
         actions: <Widget>[
           PopupMenuButton<int>(
             onSelected: (item)=> onSelectet(context,item),
@@ -80,18 +76,49 @@ class HomeScreen extends StatelessWidget{
         backgroundColor: Colors.red,
 
       ),
-      body: Container(
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Card(
+              child:GestureDetector(
+                onTap: (){
+                  _navigateTo(context, 0);
+                },
+                child: Image.network(
+                  images[0],
+                  fit: BoxFit.cover,
+                  height: 240,
+                ),
+              ),
+            ),
+            Card(
+              child:GestureDetector(
+                onTap: (){
+                  _navigateTo(context, 1);
+                },
+                child: Image.network(
+                  images[1],
+                  fit: BoxFit.cover,
+                  height: 240,
+                ),
+              ),
+            )
+          ],
+        ),
+      )/*Container(
         padding: EdgeInsets.all(12.0),
         child: GridView.builder(
           itemCount: images.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2, // numero de elementos en la fila
-              crossAxisSpacing: 4.0),
+              crossAxisCount: 1, // numero de elementos en la fila
+              mainAxisSpacing: 4.0),
           itemBuilder: (BuildContext context, int index){
             return buildCell(context, index);
           },
         ),
-      ),
+      ),*/
     );
 
   }
@@ -114,7 +141,7 @@ class HomeScreen extends StatelessWidget{
 
   _navigateTo(BuildContext context, int index){
     if(index==0){
-      Navigator.push(context, MaterialPageRoute(builder: (context) => Search()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Search(StoreType.todos)));
     }else if(index==1){
       Navigator.push(context, MaterialPageRoute(builder: (context) => SearchProducts()));
     }return;

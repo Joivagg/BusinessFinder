@@ -13,17 +13,14 @@ class Register extends StatefulWidget {
 class _RegisterPageState extends State<Register> {
   @override
   Widget build(BuildContext context) {
-    final appTitle = "Datos del envió";
+    final appTitle = "Registro de cliente";
     // TODO: implement build
-    return MaterialApp(
-      title: appTitle,
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: Text(appTitle),
         ),
         body: SingleChildScrollView(child: MyCustomForm()),
-      ),
-    );
+      );
   }
 }
 

@@ -38,6 +38,8 @@ dependencies:
   smart_select: ^4.3.2
   google_fonts: ^2.1.0
   url_launcher: ^6.0.17
+  numberpicker: ^2.1.1
+  intl: ^0.16.1
 
 dev_dependencies:
   flutter_test:

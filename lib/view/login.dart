@@ -11,15 +11,12 @@ class Login extends StatefulWidget {
 class _RegisterPageState extends State<Login> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Login page',
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: Text('Login page'),
         ),
         body: SingleChildScrollView(child: MyCustomForm()),
-      ),
-    );
+      );
   }
 
 }
@@ -93,6 +90,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                           Users usuario= await ClientDAO.user(_correo);
                           Future.delayed(const Duration(seconds: 2), ()
                           {
+                            ClientDAO.clienteActual = usuario;
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

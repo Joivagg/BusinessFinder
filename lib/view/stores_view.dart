@@ -41,7 +41,7 @@ class _StoresListViewState extends State {
         style: _biggerFont,
       ),
       subtitle: Text(
-        store.address+'\n'+store.products,
+        store.address+'\n',
         style: const TextStyle(
           fontSize: 16,
           color: Colors.lime,

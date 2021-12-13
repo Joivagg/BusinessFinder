@@ -1,3 +1,7 @@
+
+import 'package:businessfinder/controller/product_dao.dart';
+import 'package:businessfinder/model/product.dart';
+
 enum StoreType {
   todos,
   tienda,
@@ -17,7 +21,7 @@ List<StoreType> getStoreTypes(){
 
 
 class Stores {
-  String id;
+  int id;
   String name;
   String address;
   double latitude;
@@ -26,15 +30,16 @@ class Stores {
   String cellphone;
   String webpage;
   StoreType type;
-  String products;
+  List<Product> products;
   String logo;
-  String photo;
+  List<String> photo;
 
   Stores(this.id, this.name, this.address, this.latitude,this.longitude, this.phone, this.cellphone,
       this.webpage, this.type, this.products, this.logo, this.photo);
 
   Stores.formJson(Map<String, dynamic> json)
-      : id = json['ID'].toString(),
+      :
+        id = int.parse(json['ID'].toString()),
         name = json['name'].toString(),
         address = json['address'].toString(),
         latitude = double.parse(json['latitude'].toString()),
@@ -44,7 +49,7 @@ class Stores {
         webpage = json['webpage'].toString(),
         type = StoreType.values.firstWhere((element) =>
         element.toString() == 'StoreType.' + json['type'].toString()),
-        products = json['products'].toString().replaceAll(',', '\n'),
+        products = ProductsDAO.listadoProductos.where((element) => element.id_store == int.parse(json['ID'].toString())).toList(),
         logo = json['logo'].toString(),
-        photo = json['photo'].toString();
+        photo = json['photo'].toString().split(';');
 }
